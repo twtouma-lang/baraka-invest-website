@@ -12,11 +12,15 @@ MOBILE_CSS = """  <style>
     @media (max-width: 820px) {
       html, body { overflow-x: hidden; }
 
-      /* Nav: keep logo + Subscribe, hide text links */
-      nav > div { padding: 0 18px !important; gap: 16px !important; }
-      nav > div > div { gap: 16px !important; }
-      nav > div > div > a:not(:last-child) { display: none !important; }
-      nav a[href="#top"] img { height: 32px !important; }
+      /* Nav: keep logo, Support and the CTA button; hide the other links */
+      nav > div { padding: 0 14px !important; gap: 12px !important; }
+      nav > div > div { gap: 14px !important; }
+      nav > div > div > a:not(:nth-last-child(-n+2)) { display: none !important; }
+      nav > div > div > a { font-size: 14px !important; }
+      nav > div > div > a:last-child { padding: 9px 14px !important; white-space: nowrap; }
+      nav a[href="#top"] { gap: 8px !important; }
+      nav a[href="#top"] img { height: 30px !important; }
+      nav a[href="#top"] span { font-size: 15px !important; }
 
       /* Hero */
       header#top > div { padding: 64px 20px 72px !important; }
