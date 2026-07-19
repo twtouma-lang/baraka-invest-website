@@ -3,10 +3,13 @@ import base64, pathlib, re
 root = pathlib.Path('/home/user/baraka-invest-website')
 html = (root / 'index.html').read_text()
 
-# Inline the runtime script
-js = (root / 'script-01.js').read_text()
+# Embed the runtime script as a base64 data URI. It must NOT be inlined as
+# readable text: the runtime scans the page source for the first "<x-dc"
+# marker, and its own code contains that string, so inlining it makes the
+# runtime render its own source instead of the page.
+js_b64 = base64.b64encode((root / 'script-01.js').read_bytes()).decode()
 html = html.replace('<script src="./script-01.js"></script>',
-                    '<script>\n' + js + '\n</script>')
+                    f'<script src="data:text/javascript;charset=utf-8;base64,{js_b64}"></script>')
 
 # Inline fonts as data URIs
 for f in sorted(root.glob('font-*.woff2')):
