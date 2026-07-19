@@ -1,0 +1,8 @@
+{
+  "name": "baraka-invest-website",
+  "private": true,
+  "description": "BARAKA Invest marketing site and support-agent backend",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.110.0"
+  }
+}
