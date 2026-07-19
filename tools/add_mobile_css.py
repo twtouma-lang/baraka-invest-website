@@ -15,7 +15,7 @@ MOBILE_CSS = """  <style>
       /* Nav: keep logo + Subscribe, hide text links */
       nav > div { padding: 0 18px !important; gap: 16px !important; }
       nav > div > div { gap: 16px !important; }
-      nav > div > div > a:nth-child(-n+5) { display: none !important; }
+      nav > div > div > a:not(:last-child) { display: none !important; }
       nav a[href="#top"] img { height: 32px !important; }
 
       /* Hero */
