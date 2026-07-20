@@ -59,9 +59,12 @@ export default async (req: Request) => {
     return json({ error: "invalid request" }, 400);
   }
 
-  const client = new Anthropic(); // reads ANTHROPIC_API_KEY
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return json({ error: "agent not configured" }, 503);
+  }
 
   try {
+    const client = new Anthropic(); // reads ANTHROPIC_API_KEY
     const response = await client.messages.create({
       model: "claude-opus-4-8",
       max_tokens: 1024,

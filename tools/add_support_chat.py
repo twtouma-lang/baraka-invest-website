@@ -94,17 +94,17 @@ WIDGET = r"""
     if (sendBtn) sendBtn.disabled = true;
     var typing = addMsg("assistant", "…", true);
     fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ messages: history }) })
-      .then(function (r) { if (!r.ok) throw new Error("bad status " + r.status); return r.json(); })
+      .then(function (r) { if (!r.ok) { var e = new Error("bad status"); e.code = r.status; throw e; } return r.json(); })
       .then(function (d) {
         if (typing) typing.remove();
         if (d && typeof d.reply === "string" && d.reply) {
           history.push({ role: "assistant", content: d.reply });
           addMsg("assistant", d.reply);
-        } else { throw new Error("no reply"); }
+        } else { var e = new Error("no reply"); e.code = "empty"; throw e; }
       })
-      .catch(function () {
+      .catch(function (err) {
         if (typing) typing.remove();
-        addMsg("assistant", OFFLINE);
+        addMsg("assistant", OFFLINE + " (code " + (err && err.code ? err.code : "network") + ")");
       })
       .finally(function () {
         busy = false;
