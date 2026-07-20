@@ -39,7 +39,7 @@ export default async (req: Request) => {
   if (req.method !== "POST") return json({ error: "method not allowed" }, 405);
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return json({ error: "agent not configured" }, 503);
+  if (!apiKey) return json({ error: "agent not configured" }, 590);
 
   let body: any;
   try {
@@ -82,11 +82,14 @@ export default async (req: Request) => {
     });
 
     if (!upstream.ok) {
+      // Surface the real upstream status so failures are diagnosable:
+      // 401/403 = key rejected, 400 = billing/credit, 429 = rate limited.
       if (upstream.status === 401 || upstream.status === 403) {
-        return json({ error: "agent not configured" }, 503);
+        return json({ error: "agent key rejected" }, 591);
       }
       if (upstream.status === 429) return json({ error: "busy" }, 429);
-      return json({ error: "upstream error" }, 502);
+      if (upstream.status === 400) return json({ error: "billing or request issue" }, 592);
+      return json({ error: "upstream error", upstream: upstream.status }, 502);
     }
 
     const data: any = await upstream.json();
