@@ -38,7 +38,9 @@ const json = (body: unknown, status = 200) =>
 export default async (req: Request) => {
   if (req.method !== "POST") return json({ error: "method not allowed" }, 405);
 
-  const apiKey = (process.env.ANTHROPIC_API_KEY || "").trim();
+  // Use a project-specific name — ANTHROPIC_API_KEY is injected/overridden by
+  // the platform integration (a 366-char JWT), so it can't be used here.
+  const apiKey = (process.env.BARAKA_ANTHROPIC_KEY || "").trim();
   if (!apiKey) return json({ error: "agent not configured" }, 590);
 
   let body: any;
