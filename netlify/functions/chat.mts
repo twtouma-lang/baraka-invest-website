@@ -82,14 +82,22 @@ export default async (req: Request) => {
     });
 
     if (!upstream.ok) {
-      // Surface the real upstream status so failures are diagnosable:
-      // 401/403 = key rejected, 400 = billing/credit, 429 = rate limited.
-      if (upstream.status === 401 || upstream.status === 403) {
-        return json({ error: "agent key rejected" }, 591);
+      // Temporary diagnostics (safe: key value not exposed, site is gated).
+      let detail = "";
+      try {
+        const errBody: any = await upstream.json();
+        detail = errBody?.error?.type || "";
+        if (errBody?.error?.message) detail += ": " + String(errBody.error.message).slice(0, 80);
+      } catch {
+        /* ignore */
       }
-      if (upstream.status === 429) return json({ error: "busy" }, 429);
-      if (upstream.status === 400) return json({ error: "billing or request issue" }, 592);
-      return json({ error: "upstream error", upstream: upstream.status }, 502);
+      const diag = `[u${upstream.status} klen${apiKey.length} pfx${apiKey.slice(0, 7)} ${detail}]`;
+      if (upstream.status === 401 || upstream.status === 403) {
+        return json({ error: "agent key rejected", diag }, 591);
+      }
+      if (upstream.status === 429) return json({ error: "busy", diag }, 429);
+      if (upstream.status === 400) return json({ error: "billing or request issue", diag }, 592);
+      return json({ error: "upstream error", diag }, 502);
     }
 
     const data: any = await upstream.json();

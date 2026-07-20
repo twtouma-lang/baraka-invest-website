@@ -94,17 +94,20 @@ WIDGET = r"""
     if (sendBtn) sendBtn.disabled = true;
     var typing = addMsg("assistant", "…", true);
     fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ messages: history }) })
-      .then(function (r) { if (!r.ok) { var e = new Error("bad status"); e.code = r.status; throw e; } return r.json(); })
-      .then(function (d) {
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, status: r.status, d: d }; }); })
+      .then(function (res) {
         if (typing) typing.remove();
-        if (d && typeof d.reply === "string" && d.reply) {
-          history.push({ role: "assistant", content: d.reply });
-          addMsg("assistant", d.reply);
-        } else { var e = new Error("no reply"); e.code = "empty"; throw e; }
+        if (res.ok && res.d && typeof res.d.reply === "string" && res.d.reply) {
+          history.push({ role: "assistant", content: res.d.reply });
+          addMsg("assistant", res.d.reply);
+        } else {
+          var diag = res.d && res.d.diag ? " " + res.d.diag : "";
+          addMsg("assistant", OFFLINE + " (code " + res.status + diag + ")");
+        }
       })
-      .catch(function (err) {
+      .catch(function () {
         if (typing) typing.remove();
-        addMsg("assistant", OFFLINE + " (code " + (err && err.code ? err.code : "network") + ")");
+        addMsg("assistant", OFFLINE + " (code network)");
       })
       .finally(function () {
         busy = false;
