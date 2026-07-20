@@ -1,4 +1,5 @@
-import Anthropic from "@anthropic-ai/sdk";
+// Support agent backend. Calls the Anthropic Messages API directly over HTTPS
+// (no SDK dependency) to keep the function small and bundle-proof.
 
 const SYSTEM_PROMPT = `You are the support assistant on barakainvest.com, the website of BARAKA Invest.
 
@@ -37,6 +38,9 @@ const json = (body: unknown, status = 200) =>
 export default async (req: Request) => {
   if (req.method !== "POST") return json({ error: "method not allowed" }, 405);
 
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return json({ error: "agent not configured" }, 503);
+
   let body: any;
   try {
     body = await req.json();
@@ -59,37 +63,45 @@ export default async (req: Request) => {
     return json({ error: "invalid request" }, 400);
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return json({ error: "agent not configured" }, 503);
-  }
-
   try {
-    const client = new Anthropic(); // reads ANTHROPIC_API_KEY
-    const response = await client.messages.create({
-      model: "claude-opus-4-8",
-      max_tokens: 1024,
-      thinking: { type: "adaptive" },
-      output_config: { effort: "low" },
-      system: SYSTEM_PROMPT,
-      messages,
+    const upstream = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-opus-4-8",
+        max_tokens: 1024,
+        thinking: { type: "adaptive" },
+        output_config: { effort: "low" },
+        system: SYSTEM_PROMPT,
+        messages,
+      }),
     });
 
-    const reply = response.content
-      .filter((b) => b.type === "text")
-      .map((b: any) => b.text)
-      .join("\n")
-      .trim();
+    if (!upstream.ok) {
+      if (upstream.status === 401 || upstream.status === 403) {
+        return json({ error: "agent not configured" }, 503);
+      }
+      if (upstream.status === 429) return json({ error: "busy" }, 429);
+      return json({ error: "upstream error" }, 502);
+    }
+
+    const data: any = await upstream.json();
+    const reply = Array.isArray(data?.content)
+      ? data.content
+          .filter((b: any) => b?.type === "text" && typeof b.text === "string")
+          .map((b: any) => b.text)
+          .join("\n")
+          .trim()
+      : "";
 
     if (!reply) return json({ error: "empty reply" }, 502);
     return json({ reply });
-  } catch (err) {
-    if (err instanceof Anthropic.AuthenticationError) {
-      return json({ error: "agent not configured" }, 503);
-    }
-    if (err instanceof Anthropic.RateLimitError) {
-      return json({ error: "busy" }, 429);
-    }
-    return json({ error: "upstream error" }, 502);
+  } catch {
+    return json({ error: "network error" }, 502);
   }
 };
 
