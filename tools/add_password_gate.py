@@ -11,13 +11,13 @@ injection / re-run the build without it.
 """
 
 MARKER = "bk-gate-js"
-PASSWORD = "BARAKAINVEST65"
+PASSWORD = "BARAKAINVEST94"
 
 WIDGET = """
 <script id="bk-gate-js">
 (function () {
   var PW = "%PW%";
-  var KEY = "bk_gate_ok_v1";
+  var KEY = "bk_gate_ok_v2";
   var TTL = 1209600000; // 14 days
   function unlocked() {
     try {
