@@ -1,0 +1,71 @@
+{
+  "_comment": "Roster of the sites the /all-sites skill and the site-worker agent operate on. Keep this file identical across all three repos.",
+  "owner": "twtouma-lang",
+  "workspace_root": "/home/user",
+  "sites": [
+    {
+      "key": "guffee",
+      "repo": "Guffee-website",
+      "clone_url": "https://github.com/twtouma-lang/Guffee-website",
+      "default_branch": "main",
+      "checkout_path": "/home/user/Guffee-website",
+      "site_root": "guffee-website",
+      "entry": "guffee-website/index.html",
+      "layout": {
+        "html": ["guffee-website/index.html"],
+        "css": "inline in index.html",
+        "js": ["guffee-website/assets/js/runtime.js"],
+        "images": "guffee-website/assets/img/",
+        "fonts": "guffee-website/assets/fonts/"
+      },
+      "notes": [
+        "The site lives one level down, in guffee-website/ — the repo root holds nothing else. Paths inside index.html are relative to that subdirectory, not to the repo root.",
+        "Single-page static site. No build step, no package.json, no test suite."
+      ]
+    },
+    {
+      "key": "baraka",
+      "repo": "baraka-invest-website",
+      "clone_url": "https://github.com/twtouma-lang/baraka-invest-website",
+      "default_branch": "main",
+      "checkout_path": "/home/user/baraka-invest-website",
+      "site_root": ".",
+      "entry": "index.html",
+      "layout": {
+        "html": ["index.html"],
+        "css": "inline in index.html",
+        "js": ["script-01.js", "script-02.js", "script-03.js"],
+        "images": "image-01.svg (repo root)",
+        "fonts": "font-01.woff2 … font-08.woff2 (repo root)"
+      },
+      "notes": [
+        "Everything is FLAT at the repo root — there is no assets/ directory on disk.",
+        "The README documents an assets/img, assets/fonts, assets/js layout that does not exist. Trust the filesystem, not the README. If you reorganize into assets/, you must update every reference in index.html and fix the README in the same commit.",
+        "Single-page static site. No build step, no package.json, no test suite."
+      ]
+    },
+    {
+      "key": "baladac",
+      "repo": "baladac",
+      "clone_url": "https://github.com/twtouma-lang/baladac",
+      "default_branch": "main",
+      "checkout_path": "/home/user/baladac",
+      "site_root": ".",
+      "entry": null,
+      "layout": {
+        "html": [],
+        "css": null,
+        "js": [],
+        "images": null,
+        "fonts": null
+      },
+      "notes": [
+        "SCAFFOLD ONLY — there is no site yet. The repo contains README.md, env.example, and gitignore.",
+        "env.example and gitignore are missing their leading dots (they are not .env.example / .gitignore and therefore are not doing their job).",
+        "The README describes an intended src/ + public/ + scripts/ layout and an npm dev/build/preview/lint workflow. None of it exists yet — treat the README as a spec, not a description.",
+        "Content-shaped tasks may have nothing to edit here. Say so plainly rather than inventing a site to edit.",
+        "Project specification figures (built-up area, height limits, garden/road allocation) are regulatory and commercial commitments. Never invent, round, or adjust them."
+      ]
+    }
+  ]
+}
