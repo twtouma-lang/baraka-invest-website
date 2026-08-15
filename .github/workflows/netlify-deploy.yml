@@ -11,6 +11,11 @@ on:
         description: Netlify MCP deploy proxy URL (short-lived, scoped to build upload)
         required: true
         type: string
+      site_url:
+        description: Public site URL to verify after deploying
+        required: false
+        default: https://baraka-agent-hq.netlify.app
+        type: string
 
 jobs:
   deploy:
@@ -31,3 +36,43 @@ jobs:
           cp font-02.woff2 font-04.woff2 font-06.woff2 font-08.woff2 agent-hq/
           cd agent-hq
           npx -y @netlify/mcp@latest --site-id "$SITE_ID" --proxy-path "$PROXY_PATH"
+
+      # Confirms the password gate is live and configured. Never send the real
+      # password here: workflow inputs and logs are public on a public repo.
+      - name: Verify the password gate
+        env:
+          SITE_URL: ${{ inputs.site_url }}
+        run: |
+          set -euo pipefail
+          sleep 5
+
+          headers=$(curl -sS -D - -o /dev/null --max-time 30 "$SITE_URL/")
+          status=$(printf '%s' "$headers" | head -n1 | awk '{print $2}')
+          echo "Unauthenticated request returned: $status"
+
+          if [ "$status" = "403" ]; then
+            echo "::error::Gate is deployed but not configured (it cannot read its password)."
+            exit 1
+          fi
+          if [ "$status" = "200" ]; then
+            echo "::error::Site served content without credentials — it is NOT private."
+            exit 1
+          fi
+          if [ "$status" != "401" ]; then
+            echo "::error::Expected 401 from the gate, got $status."
+            exit 1
+          fi
+          if ! printf '%s' "$headers" | grep -qi 'www-authenticate: *basic'; then
+            echo "::error::401 returned without a Basic auth challenge header."
+            exit 1
+          fi
+
+          wrong=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 \
+                    -u "tarek:definitely-not-the-password" "$SITE_URL/")
+          echo "Wrong-password request returned: $wrong"
+          if [ "$wrong" != "401" ]; then
+            echo "::error::A wrong password did not get rejected (got $wrong)."
+            exit 1
+          fi
+
+          echo "Gate verified: challenges anonymous visitors and rejects bad passwords."
