@@ -15,11 +15,12 @@ baraka-invest-website/
 └── README.md
 ```
 
-## Agent HQ (`agents.html`)
+## Agent HQ (`agent-hq/` — standalone & private)
 
-A mission-control page — **Agent HQ** in the nav — where a central orchestrator
-agent (**AMANA**) routes your requests to 8 specialist AI agents arranged around
-it, all briefed on BARAKA Invest:
+A separate mission-control app, deliberately **not linked from the website**.
+It deploys to its own password-protected Netlify site, for the owner only.
+A central orchestrator agent (**AMANA**) routes your requests to 8 specialist
+AI agents arranged around it, all briefed on BARAKA Invest:
 
 | Agent | Specialty |
 |---|---|
@@ -38,13 +39,15 @@ specialist (you'll see the routing animate on the map).
 **Live mode** — open ⚙ Settings on the page and paste your Anthropic API key
 (get one at https://platform.claude.com). The key is stored only in your
 browser's localStorage and calls go straight from your browser to the Claude
-API. Use it on your own machine only — never publish a page with a key in it.
+API. Keep the site password-protected and the key to yourself.
 
 **Demo mode** — with no key set, the HQ simulates routing with canned replies
 so you can see how it works.
 
-Files: `agents.html`, `agents.css`, `agents.js` (agent prompts and the roster
-live at the top of `agents.js` — edit them there to tune or add agents).
+Files: `agent-hq/index.html`, `agent-hq/agents.css`, `agent-hq/agents.js`
+(agent prompts and the roster live at the top of `agents.js` — edit them
+there to tune or add agents). Deployment: `.github/workflows/netlify-deploy.yml`
+copies the site fonts into `agent-hq/` and uploads that folder to Netlify.
 
 ## Sections on the page
 

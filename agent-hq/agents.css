@@ -35,12 +35,6 @@ body{
   padding:14px 22px;
 }
 .hud-left{ display:flex; align-items:center; gap:14px; }
-.hud-back{
-  display:grid; place-items:center; width:34px; height:34px; border-radius:8px;
-  color:var(--ink-dim); text-decoration:none; border:1px solid var(--line);
-  background:rgba(255,255,255,.03); transition:.2s;
-}
-.hud-back:hover{ color:#fff; border-color:rgba(130,160,255,.4); }
 .hud-brand{ display:flex; flex-direction:column; line-height:1.15; }
 .hud-brand-name{ font-family:'Cinzel',serif; letter-spacing:.14em; font-size:15px; color:#fff; }
 .hud-brand-name em{ font-style:normal; color:var(--cyan); }
