@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BARAKA Invest — Agent HQ</title>
+<link rel="stylesheet" href="./agents.css">
+</head>
+<body>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<!-- ═══════════ TOP HUD ═══════════ -->
+<header class="hud">
+  <div class="hud-left">
+    <a class="hud-back" href="./index.html" title="Back to website">←</a>
+    <div class="hud-brand">
+      <span class="hud-brand-name">BARAKA <em>INVEST</em></span>
+      <span class="hud-brand-sub">AGENT&nbsp;HQ</span>
+    </div>
+  </div>
+  <div class="hud-stats">
+    <div class="hud-stat"><b id="stat-missions">0</b><span>missions</span></div>
+    <div class="hud-stat"><b id="stat-agents">8</b><span>agents</span></div>
+    <div class="hud-stat"><b id="stat-active">0</b><span>active</span></div>
+    <div class="hud-stat hud-stat-mode"><b id="stat-mode">DEMO</b><span id="stat-model">no api key</span></div>
+  </div>
+  <div class="hud-right">
+    <button id="btn-chat" class="hud-btn" title="Toggle transmissions panel">☰ Log</button>
+    <button id="btn-settings" class="hud-btn" title="Settings">⚙ Settings</button>
+  </div>
+</header>
+
+<!-- ═══════════ RADIAL STAGE ═══════════ -->
+<main id="stage" aria-label="Agent constellation">
+  <div class="orbit-rings" aria-hidden="true">
+    <div class="oring or1"></div>
+    <div class="oring or2"></div>
+    <div class="oring or3"></div>
+    <div class="oring or4"></div>
+  </div>
+
+  <svg id="links" aria-hidden="true"></svg>
+
+  <div id="core" role="button" tabindex="0" title="AMANA — orchestrator">
+    <div class="core-halo" aria-hidden="true"></div>
+    <div class="core-ring cr-a" aria-hidden="true"></div>
+    <div class="core-ring cr-b" aria-hidden="true"></div>
+    <div class="core-orb"><span>AMANA</span></div>
+    <div class="core-label" id="core-status">orchestrator · online</div>
+  </div>
+
+  <!-- agent nodes injected by agents.js -->
+</main>
+
+<!-- ═══════════ TRANSMISSIONS PANEL ═══════════ -->
+<aside id="chat" class="chat-hidden" aria-label="Transmissions">
+  <div class="chat-head">
+    <span class="chat-title">TRANSMISSIONS</span>
+    <button id="btn-chat-close" class="chat-close" title="Close">✕</button>
+  </div>
+  <div id="chat-log"></div>
+</aside>
+
+<!-- ═══════════ BOTTOM DOCK ═══════════ -->
+<footer class="dock">
+  <div id="taskcards" aria-label="Suggested missions"></div>
+  <form id="commandbar" autocomplete="off">
+    <input id="command-input" type="text" spellcheck="false"
+           placeholder="Ask AMANA anything — e.g. “plan a launch campaign for the sector coverage plan”">
+    <button id="command-send" type="submit" title="Send">➤</button>
+  </form>
+  <div id="busyline" class="busy-hidden"></div>
+</footer>
+
+<!-- ═══════════ SETTINGS MODAL ═══════════ -->
+<div id="modal" class="modal-hidden">
+  <div class="modal-card">
+    <h2>Agent HQ — Settings</h2>
+    <label class="modal-label" for="in-key">Anthropic API key</label>
+    <input id="in-key" type="password" placeholder="sk-ant-…">
+    <label class="modal-label" for="in-model">Model</label>
+    <select id="in-model">
+      <option value="claude-opus-5">Claude Opus 5 — best quality (default)</option>
+      <option value="claude-sonnet-5">Claude Sonnet 5 — balanced</option>
+      <option value="claude-haiku-4-5">Claude Haiku 4.5 — fastest / cheapest</option>
+    </select>
+    <p class="modal-note">
+      Your key is stored <b>only in this browser</b> (localStorage) and requests go
+      directly from your browser to Anthropic. Use your own key on your own machine —
+      never deploy this page publicly with a key inside it. Without a key the HQ runs
+      in <b>demo mode</b> (simulated replies, no API calls).
+    </p>
+    <div class="modal-actions">
+      <button id="btn-key-clear" type="button" class="modal-btn ghost">Clear key</button>
+      <button id="btn-modal-save" type="button" class="modal-btn primary">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="./agents.js"></script>
+</body>
+</html>
