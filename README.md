@@ -44,10 +44,25 @@ API. Keep the site password-protected and the key to yourself.
 **Demo mode** — with no key set, the HQ simulates routing with canned replies
 so you can see how it works.
 
+**Access** — every request is challenged for a password by the edge function
+in `agent-hq/netlify/edge-functions/auth.ts`. It stores only a PBKDF2-SHA256
+hash of the password, never the password itself, so the hash is safe to keep
+in this public repository. To change the password, either set a (non-secret)
+`AGENT_HQ_PASSWORD` variable on the Netlify site, which overrides the hash,
+or replace `SALT_HEX`/`HASH_HEX` with a new derivation:
+
+```shell
+python3 -c "import getpass,hashlib,secrets,binascii; p=getpass.getpass(); s=secrets.token_bytes(16); print('SALT_HEX', binascii.hexlify(s).decode()); print('HASH_HEX', binascii.hexlify(hashlib.pbkdf2_hmac('sha256', p.encode(), s, 100000, 32)).decode())"
+```
+
+Pick a long random password — a short or guessable one can be recovered from
+a published hash.
+
 Files: `agent-hq/index.html`, `agent-hq/agents.css`, `agent-hq/agents.js`
 (agent prompts and the roster live at the top of `agents.js` — edit them
 there to tune or add agents). Deployment: `.github/workflows/netlify-deploy.yml`
-copies the site fonts into `agent-hq/` and uploads that folder to Netlify.
+copies the site fonts into `agent-hq/`, uploads that folder to Netlify, then
+checks that the live site still refuses anonymous visitors.
 
 ## Sections on the page
 
