@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════
    BARAKA Invest — Agent HQ
-   One orchestrator (AMANA) + 8 specialist agents.
-   You talk to AMANA; it routes each task to the right specialist.
+   One orchestrator (BARAKA) + 8 specialist agents.
+   You talk to BARAKA; it routes each task to the right specialist.
 
    Live mode : direct browser → Anthropic API calls (your key,
                stored only in localStorage on this machine).
@@ -37,46 +37,46 @@ not descriptions of work. End with one short suggested next step.`;
    2. AGENT ROSTER
    ────────────────────────────────────────────── */
 const AGENTS = {
-  bayan: {
-    name: "BAYAN", role: "Marketing Strategist", color: "#F59E0B",
+  georges: {
+    name: "Georges", role: "Marketing Strategist", color: "#F59E0B",
     icon: "M4 15l6-6 4 4 6-8 M20 5h-5 M20 5v5",
     desc: "positioning, campaigns, offers, go-to-market",
-    system: `You are BAYAN, the marketing strategist of BARAKA Invest.${BRAND}
+    system: `You are Georges, the marketing strategist of BARAKA Invest.${BRAND}
 You own positioning, campaign architecture, offers, pricing experiments, launch
 plans and go-to-market strategy. Think like a growth-stage CMO: every plan names
 the audience segment, the channel, the message, the offer, the budget tier and
 the success metric. Prefer plans that can start this week with near-zero budget,
 then scale.${STYLE}`,
-    demo: `**Campaign sketch — "Four Lenses" launch (demo)**\n\n- **Audience:** values-driven investors + Islamic-finance professionals on LinkedIn\n- **Offer:** first month of one Country plan at 50% + free Shariah screen sample\n- **Channels:** LinkedIn thought-leadership (3×/wk), email nurture (5-part), 2 partner newsletters\n- **Metric:** 200 trial subscriptions in 30 days\n\n*Next step: ask QALAM to draft the announcement post and email #1.*`
+    demo: `**Campaign sketch — "Four Lenses" launch (demo)**\n\n- **Audience:** values-driven investors + Islamic-finance professionals on LinkedIn\n- **Offer:** first month of one Country plan at 50% + free Shariah screen sample\n- **Channels:** LinkedIn thought-leadership (3×/wk), email nurture (5-part), 2 partner newsletters\n- **Metric:** 200 trial subscriptions in 30 days\n\n*Next step: ask Mohamed to draft the announcement post and email #1.*`
   },
-  qalam: {
-    name: "QALAM", role: "Copy & Content", color: "#14B8A6",
+  mohamed: {
+    name: "Mohamed", role: "Copy & Content", color: "#14B8A6",
     icon: "M12 19l7-7 3 3-7 7-3-3z M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z M2 2l7.586 7.586 M11 11a2 2 0 1 0 0.001-3.999A2 2 0 0 0 11 11z",
     desc: "landing copy, emails, articles, ad copy",
-    system: `You are QALAM, the copywriter and content lead of BARAKA Invest.${BRAND}
+    system: `You are Mohamed, the copywriter and content lead of BARAKA Invest.${BRAND}
 You write landing pages, emails, ads, LinkedIn posts, and research-note articles
 in the brand voice: premium, precise, principled — never hype-y. Deliver finished
 copy, ready to paste, with headline options and subject-line variants where
 relevant. Match tone to channel; keep claims honest and verifiable.${STYLE}`,
     demo: `**LinkedIn post draft (demo)**\n\n> Most research makes you choose between insight and principle.\n> Ours doesn't.\n>\n> Every BARAKA Invest report — country, sector or industry — can carry a full Shariah layer: activity screens, ratio screens, purification guidance. Reviewed against AAOIFI standards.\n>\n> Knowledge, amplified. Decisions, sharpened.\n> → barakainvest.com\n\n*Next step: want 3 subject-line variants for the launch email?*`
   },
-  sada: {
-    name: "SADA", role: "Social Media", color: "#EC4899",
+  ahmed: {
+    name: "Ahmed", role: "Social Media", color: "#EC4899",
     icon: "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z",
     desc: "calendars, hooks, platform strategy",
-    system: `You are SADA, the social media manager of BARAKA Invest.${BRAND}
+    system: `You are Ahmed, the social media manager of BARAKA Invest.${BRAND}
 You own the content calendar, platform strategy (LinkedIn first, then X and
 Instagram), hooks, hashtags, engagement tactics and community building. Turn the
 firm's research themes into scroll-stopping, credible posts. Deliver calendars
 as tables (day / platform / format / hook / CTA). No engagement-bait; authority
 and trust are the currency.${STYLE}`,
-    demo: `**7-day starter calendar (demo)**\n\n- **Mon · LinkedIn:** carousel — "4 lenses we run on every market"\n- **Wed · LinkedIn:** text post — one surprising stat from a country report\n- **Thu · X:** thread — "How Shariah screening actually works (AAOIFI, simply)"\n- **Fri · LinkedIn:** founder note — why principle and performance aren't a trade-off\n- **Sun · IG:** quote card — tagline + navy/gold visual\n\n*Next step: ask QALAM to write the Monday carousel copy.*`
+    demo: `**7-day starter calendar (demo)**\n\n- **Mon · LinkedIn:** carousel — "4 lenses we run on every market"\n- **Wed · LinkedIn:** text post — one surprising stat from a country report\n- **Thu · X:** thread — "How Shariah screening actually works (AAOIFI, simply)"\n- **Fri · LinkedIn:** founder note — why principle and performance aren't a trade-off\n- **Sun · IG:** quote card — tagline + navy/gold visual\n\n*Next step: ask Mohamed to write the Monday carousel copy.*`
   },
-  nujum: {
-    name: "NUJUM", role: "SEO & Growth", color: "#8B5CF6",
+  leila: {
+    name: "Leila", role: "SEO & Growth", color: "#8B5CF6",
     icon: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.35-4.35 M8 11h6 M11 8v6",
     desc: "keywords, funnels, CRO, analytics",
-    system: `You are NUJUM, the SEO and growth engineer of BARAKA Invest.${BRAND}
+    system: `You are Leila, the SEO and growth engineer of BARAKA Invest.${BRAND}
 You own organic growth: keyword strategy (e.g. "halal investing research",
 "shariah compliant stocks screening"), content clusters, on-page and technical
 SEO, conversion-rate optimization of the plan builder, referral loops and
@@ -84,24 +84,24 @@ analytics. Recommendations must be specific: exact keywords, page titles, meta
 descriptions, internal links, experiment designs with hypotheses.${STYLE}`,
     demo: `**Quick SEO wins (demo)**\n\n1. Target cluster: *"halal investing research"* (head) + long-tails: "AAOIFI stock screening explained", "shariah compliant sector analysis".\n2. Publish 4 pillar articles from existing report intros — each links to the plan builder.\n3. Add FAQ schema to the FAQ section for rich results.\n4. CRO test: move the plan builder CTA above the fold on mobile.\n\n*Next step: want the full 90-day content cluster map?*`
   },
-  mizan: {
-    name: "MIZAN", role: "Bookkeeping", color: "#22C55E",
+  maria: {
+    name: "Maria", role: "Bookkeeping", color: "#22C55E",
     icon: "M12 3v18 M5 7h14 M7 7l-3 6a3.5 3.5 0 0 0 6 0l-3-6z M17 7l-3 6a3.5 3.5 0 0 0 6 0l-3-6z",
     desc: "ledgers, invoicing, monthly close",
-    system: `You are MIZAN, the bookkeeping and accounting agent of BARAKA Invest.${BRAND}
+    system: `You are Maria, the bookkeeping and accounting agent of BARAKA Invest.${BRAND}
 You handle the books of a subscription-research business: chart of accounts,
 transaction categorization, invoicing, deferred-revenue treatment of annual
 subscriptions, expense policy, monthly close checklists, and zakat-aware record
 keeping. Be rigorous and conservative. You are not a licensed accountant: label
 outputs as drafts for review, and say clearly when a licensed professional or
 local tax adviser is required.${STYLE}`,
-    demo: `**Monthly close checklist — draft (demo)**\n\n1. Reconcile bank + Stripe payouts to the ledger\n2. Recognize the month's portion of deferred subscription revenue\n3. Categorize expenses (research tools, hosting, marketing, contractors)\n4. Review AR: unpaid invoices > 15 days → RABT follow-up\n5. Snapshot MRR, churn, cash on hand for HISAB\n\n*Draft for review — confirm treatment with a licensed accountant. Next step: want a starter chart of accounts?*`
+    demo: `**Monthly close checklist — draft (demo)**\n\n1. Reconcile bank + Stripe payouts to the ledger\n2. Recognize the month's portion of deferred subscription revenue\n3. Categorize expenses (research tools, hosting, marketing, contractors)\n4. Review AR: unpaid invoices > 15 days → Andrew follow-up\n5. Snapshot MRR, churn, cash on hand for Jade\n\n*Draft for review — confirm treatment with a licensed accountant. Next step: want a starter chart of accounts?*`
   },
-  hisab: {
-    name: "HISAB", role: "Finance & CFO", color: "#EAB308",
+  jade: {
+    name: "Jade", role: "Finance & CFO", color: "#EAB308",
     icon: "M4 4h16v16H4z M8 8h8 M8 12h4 M14 12h2 M8 16h2 M12 16h4",
     desc: "forecasts, pricing, unit economics",
-    system: `You are HISAB, the finance and CFO agent of BARAKA Invest.${BRAND}
+    system: `You are Jade, the finance and CFO agent of BARAKA Invest.${BRAND}
 You own forecasts, unit economics (CAC, LTV, churn, payback), pricing models,
 runway planning, and investor-grade reporting for a subscription business.
 Show your arithmetic in small tables, state assumptions explicitly, and give a
@@ -109,11 +109,11 @@ base / upside / downside view where useful. You are not a licensed financial
 adviser; frame outputs as analysis drafts for review.${STYLE}`,
     demo: `**Unit-economics frame (demo)**\n\nAssume: plan price $49/mo, gross margin 88%, monthly churn 4%.\n\n- **LTV** ≈ 49 × 0.88 ÷ 0.04 ≈ **$1,078**\n- Healthy CAC ceiling (LTV:CAC ≥ 3) ≈ **$359**\n- At $120 CAC → payback ≈ **2.8 months**\n\n*Analysis draft — replace assumptions with real numbers. Next step: share actual price points and I'll build the 12-month forecast.*`
   },
-  rabt: {
-    name: "RABT", role: "Sales & Outreach", color: "#0EA5E9",
+  andrew: {
+    name: "Andrew", role: "Sales & Outreach", color: "#0EA5E9",
     icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",
     desc: "lead gen, sequences, partnerships",
-    system: `You are RABT, the sales and outreach agent of BARAKA Invest.${BRAND}
+    system: `You are Andrew, the sales and outreach agent of BARAKA Invest.${BRAND}
 You own lead generation, outreach sequences (email + LinkedIn), proposal drafts,
 partnership pitches (Islamic banks, wealth platforms, fintechs), and follow-up
 cadences. Write sequences ready to send: subject, body, timing, and the one
@@ -121,11 +121,11 @@ clear CTA. Qualify leads by segment (individual / family office / institution)
 and tailor the pitch to each. Respectful persistence, never spam.${STYLE}`,
     demo: `**Cold outreach — Islamic bank partnerships (demo)**\n\n**Email 1 (day 0)** — subj: *Research your clients will actually trust*\nShort intro, one insight from a recent report, ask for 20 minutes.\n\n**Email 2 (day 4)** — subj: *The Shariah layer, done properly*\nAAOIFI-aligned screening angle + white-label option.\n\n**Email 3 (day 10)** — breakup note, leave a sample report.\n\n*Next step: tell me the target institution and I'll personalize the sequence.*`
   },
-  rasid: {
-    name: "RASID", role: "Market Intelligence", color: "#EF4444",
+  sereina: {
+    name: "Sereina", role: "Market Intelligence", color: "#EF4444",
     icon: "M12 2a10 10 0 1 0 10 10 M12 8a4 4 0 1 0 4 4 M12 12l7-7 M17 5h2.5 M19 3v2.5",
     desc: "competitor scans, trends, sizing",
-    system: `You are RASID, the market-intelligence agent of BARAKA Invest.${BRAND}
+    system: `You are Sereina, the market-intelligence agent of BARAKA Invest.${BRAND}
 You scan the competitive landscape (Islamic-finance research providers, halal
 stock screeners, conventional research houses), spot trends, size opportunities
 and produce SWOTs and battle cards. Structure findings as: landscape → gaps →
@@ -136,18 +136,19 @@ would need first-hand verification.${STYLE}`,
 };
 
 const ORCHESTRATOR = {
-  name: "AMANA", color: "#38d7ff",
-  system: `You are AMANA, the orchestrator and chief of staff of BARAKA Invest's
-agent team.${BRAND}
+  name: "BARAKA", color: "#38d7ff",
+  system: `You are BARAKA, the orchestrator and chief of staff of the BARAKA
+Invest agent team. You share the firm's name — you lead its agents, you are not
+the company itself.${BRAND}
 Your team (route with the "delegate" tool):
-- bayan — marketing strategy, campaigns, offers, go-to-market
-- qalam — copywriting: landing pages, emails, ads, articles, posts
-- sada  — social media calendars, hooks, platform strategy
-- nujum — SEO, growth loops, funnels, CRO, analytics
-- mizan — bookkeeping, invoicing, categorization, monthly close
-- hisab — finance: forecasts, pricing models, unit economics, runway
-- rabt  — sales, outreach sequences, proposals, partnerships
-- rasid — market intelligence, competitor scans, trend research
+- georges — marketing strategy, campaigns, offers, go-to-market
+- mohamed — copywriting: landing pages, emails, ads, articles, posts
+- ahmed   — social media calendars, hooks, platform strategy
+- leila   — SEO, growth loops, funnels, CRO, analytics
+- maria   — bookkeeping, invoicing, categorization, monthly close
+- jade    — finance: forecasts, pricing models, unit economics, runway
+- andrew  — sales, outreach sequences, proposals, partnerships
+- sereina — market intelligence, competitor scans, trend research
 
 Decide per message:
 1. If the request clearly belongs to one specialist, call the delegate tool
@@ -162,7 +163,7 @@ Keep direct answers short. The conversation history may contain specialist
 replies; treat them as your team's prior work.`
 };
 
-/* Routing tool given to AMANA */
+/* Routing tool given to BARAKA */
 const DELEGATE_TOOL = {
   name: "delegate",
   description: "Route the user's request to the best specialist agent on the Baraka Invest team. Call at most once per user message.",
@@ -179,13 +180,13 @@ const DELEGATE_TOOL = {
 
 /* Suggested missions (bottom cards) */
 const MISSIONS = [
-  { icon: "🚀", title: "Launch Campaign", agent: "bayan",
+  { icon: "🚀", title: "Launch Campaign", agent: "georges",
     prompt: "Design a 30-day launch campaign for our Country coverage subscription plan, with near-zero budget to start." },
-  { icon: "📚", title: "Content Engine", agent: "sada",
+  { icon: "📚", title: "Content Engine", agent: "ahmed",
     prompt: "Build me a 2-week social media calendar that turns our research themes into LinkedIn-first content." },
-  { icon: "📒", title: "Monthly Close", agent: "mizan",
+  { icon: "📒", title: "Monthly Close", agent: "maria",
     prompt: "Set up a monthly bookkeeping close process for our subscription business, including deferred revenue." },
-  { icon: "📡", title: "Competitor Scan", agent: "rasid",
+  { icon: "📡", title: "Competitor Scan", agent: "sereina",
     prompt: "Map the competitive landscape for Shariah-conscious investment research and tell me where our wedge is." }
 ];
 
@@ -457,7 +458,7 @@ async function callOrchestrator() {
 async function callSpecialist(id, brief, bodyEl) {
   const a = AGENTS[id];
   const messages = state.history.slice();
-  if (brief) messages.push({ role: "user", content: `Task brief from AMANA (orchestrator): ${brief}` });
+  if (brief) messages.push({ role: "user", content: `Task brief from BARAKA (orchestrator): ${brief}` });
 
   const res = await fetch(API_URL, {
     method: "POST",
@@ -508,14 +509,14 @@ async function callSpecialist(id, brief, bodyEl) {
    8. DEMO MODE (no API key)
    ────────────────────────────────────────────── */
 const DEMO_ROUTES = [
-  { agent: "mizan", words: ["bookkeep", "invoice", "ledger", "expense", "close", "reconcil", "account", "categoriz"] },
-  { agent: "hisab", words: ["forecast", "pricing", "price", "unit econ", "cac", "ltv", "runway", "budget", "mrr", "revenue model", "cash"] },
-  { agent: "qalam", words: ["copy", "write", "email", "landing", "article", "headline", "post draft", "blog", "ad "] },
-  { agent: "sada",  words: ["social", "calendar", "linkedin", "instagram", "tiktok", "twitter", "hashtag", "content plan"] },
-  { agent: "nujum", words: ["seo", "keyword", "google", "traffic", "funnel", "conversion", "analytics", "growth"] },
-  { agent: "rabt",  words: ["sales", "outreach", "lead", "proposal", "partner", "pitch", "follow-up", "prospect"] },
-  { agent: "rasid", words: ["competitor", "market research", "landscape", "trend", "swot", "intel", "scan"] },
-  { agent: "bayan", words: ["campaign", "launch", "marketing", "strategy", "brand", "offer", "go-to-market", "gtm", "positioning"] }
+  { agent: "maria", words: ["bookkeep", "invoice", "ledger", "expense", "close", "reconcil", "account", "categoriz"] },
+  { agent: "jade", words: ["forecast", "pricing", "price", "unit econ", "cac", "ltv", "runway", "budget", "mrr", "revenue model", "cash"] },
+  { agent: "mohamed", words: ["copy", "write", "email", "landing", "article", "headline", "post draft", "blog", "ad "] },
+  { agent: "ahmed",  words: ["social", "calendar", "linkedin", "instagram", "tiktok", "twitter", "hashtag", "content plan"] },
+  { agent: "leila", words: ["seo", "keyword", "google", "traffic", "funnel", "conversion", "analytics", "growth"] },
+  { agent: "andrew",  words: ["sales", "outreach", "lead", "proposal", "partner", "pitch", "follow-up", "prospect"] },
+  { agent: "sereina", words: ["competitor", "market research", "landscape", "trend", "swot", "intel", "scan"] },
+  { agent: "georges", words: ["campaign", "launch", "marketing", "strategy", "brand", "offer", "go-to-market", "gtm", "positioning"] }
 ];
 
 function demoRoute(text) {
@@ -550,7 +551,7 @@ async function submit(text) {
   state.history.push({ role: "user", content: text });
   if (state.history.length > 24) state.history = state.history.slice(-24);
 
-  setBusy(true, "AMANA is routing…");
+  setBusy(true, "BARAKA is routing…");
   setCoreBusy(true);
 
   try {
@@ -572,14 +573,14 @@ async function liveTurn() {
   const decision = await callOrchestrator();
 
   if (decision.kind === "answer") {
-    addMsg("", "AMANA", ORCHESTRATOR.color, md(decision.text));
+    addMsg("", "BARAKA", ORCHESTRATOR.color, md(decision.text));
     state.history.push({ role: "assistant", content: decision.text });
     return;
   }
 
   const a = AGENTS[decision.agent];
   const note = decision.note || `Routing to ${a.name} — ${a.role.toLowerCase()}.`;
-  addMsg("msg-note", "AMANA → " + a.name, ORCHESTRATOR.color, esc(note));
+  addMsg("msg-note", "BARAKA → " + a.name, ORCHESTRATOR.color, esc(note));
   setCoreBusy(true, `routing → ${a.name}`);
   setAgentActive(decision.agent, true);
   setBusy(true, `${a.name} is working…`);
@@ -594,15 +595,15 @@ async function demoTurn(text) {
   const routed = demoRoute(text);
 
   if (!routed) {
-    const reply = `**AMANA here.** I coordinate the Baraka Invest agent team — marketing (BAYAN, QALAM, SADA, NUJUM), finance (MIZAN, HISAB) and growth (RABT, RASID).\n\nAsk for something concrete — a campaign, copy, a forecast, a bookkeeping process — and I'll route it to the right specialist.\n\n*Demo mode: add your Anthropic API key in ⚙ Settings for real answers.*`;
-    const bodyEl = addMsg("", "AMANA", ORCHESTRATOR.color, "");
+    const reply = `**BARAKA here.** I coordinate the Baraka Invest agent team — marketing (Georges, Mohamed, Ahmed, Leila), finance (Maria, Jade) and growth (Andrew, Sereina).\n\nAsk for something concrete — a campaign, copy, a forecast, a bookkeeping process — and I'll route it to the right specialist.\n\n*Demo mode: add your Anthropic API key in ⚙ Settings for real answers.*`;
+    const bodyEl = addMsg("", "BARAKA", ORCHESTRATOR.color, "");
     await new Promise((r) => typeInto(bodyEl, reply, r));
     state.history.push({ role: "assistant", content: reply });
     return;
   }
 
   const a = AGENTS[routed];
-  addMsg("msg-note", "AMANA → " + a.name, ORCHESTRATOR.color,
+  addMsg("msg-note", "BARAKA → " + a.name, ORCHESTRATOR.color,
     esc(`This one's for ${a.name} — ${a.role.toLowerCase()}.`));
   setCoreBusy(true, `routing → ${a.name}`);
   setAgentActive(routed, true);
@@ -660,8 +661,8 @@ function wire() {
   coreEl.addEventListener("click", () => {
     openChat();
     if (!logEl.children.length) {
-      addMsg("", "AMANA", ORCHESTRATOR.color, md(
-        `**Assalamu alaikum — AMANA online.** I run your agent team:\n\n- **Marketing:** BAYAN · QALAM · SADA · NUJUM\n- **Finance:** MIZAN · HISAB\n- **Growth:** RABT · RASID\n\nTell me what you need — I'll route it to the right specialist.`));
+      addMsg("", "BARAKA", ORCHESTRATOR.color, md(
+        `**Assalamu alaikum — BARAKA online.** I run your agent team:\n\n- **Marketing:** Georges · Mohamed · Ahmed · Leila\n- **Finance:** Maria · Jade\n- **Growth:** Andrew · Sereina\n\nTell me what you need — I'll route it to the right specialist.`));
     }
   });
 }

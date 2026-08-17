@@ -19,21 +19,21 @@ baraka-invest-website/
 
 A separate mission-control app, deliberately **not linked from the website**.
 It deploys to its own password-protected Netlify site, for the owner only.
-A central orchestrator agent (**AMANA**) routes your requests to 8 specialist
+A central orchestrator agent (**BARAKA**) routes your requests to 8 specialist
 AI agents arranged around it, all briefed on BARAKA Invest:
 
 | Agent | Specialty |
 |---|---|
-| BAYAN | Marketing strategy, campaigns, go-to-market |
-| QALAM | Copywriting: landing pages, emails, ads, articles |
-| SADA  | Social media calendars and platform strategy |
-| NUJUM | SEO, growth loops, funnels, CRO |
-| MIZAN | Bookkeeping: ledgers, invoicing, monthly close |
-| HISAB | Finance/CFO: forecasts, pricing, unit economics |
-| RABT  | Sales, outreach sequences, partnerships |
-| RASID | Market intelligence, competitor scans |
+| Georges | Marketing strategy, campaigns, go-to-market |
+| Mohamed | Copywriting: landing pages, emails, ads, articles |
+| Ahmed   | Social media calendars and platform strategy |
+| Leila   | SEO, growth loops, funnels, CRO |
+| Maria   | Bookkeeping: ledgers, invoicing, monthly close |
+| Jade    | Finance/CFO: forecasts, pricing, unit economics |
+| Andrew  | Sales, outreach sequences, partnerships |
+| Sereina | Market intelligence, competitor scans |
 
-You type one message to AMANA; it either answers or delegates to the right
+You type one message to BARAKA; it either answers or delegates to the right
 specialist (you'll see the routing animate on the map).
 
 **Live mode** — open ⚙ Settings on the page and paste your Anthropic API key
