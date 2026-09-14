@@ -19,6 +19,128 @@
   </noscript>
 </head>
 <body>
+<form name="call-requests" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name">
+  <input type="email" name="email">
+  <input type="text" name="organization">
+  <input type="text" name="phone">
+  <input type="text" name="requested_slot">
+  <input type="text" name="topic">
+  <input type="text" name="submitted_at">
+  <input type="text" name="bot-field">
+</form>
+
+<script id="bk-call-wire">
+(function () {
+  var FORM = "call-requests";
+  var FALLBACK = "support@barakainvest.com";
+  var busy = false;
+
+  function val(id) {
+    var el = document.getElementById(id);
+    return el && el.value ? el.value.trim() : "";
+  }
+
+  function say(text, ok) {
+    var msg = document.getElementById("calPick");
+    if (!msg) return;
+    msg.textContent = text;
+    msg.style.color = ok ? "#1E7F3E" : "#B4231C";
+    msg.style.fontWeight = "700";
+  }
+
+  function slotLabel() {
+    try {
+      if (typeof window.calLabel === "function") return window.calLabel();
+    } catch (e) {}
+    try {
+      return (window.CAL && window.CAL.date ? window.CAL.date : "") +
+             " " + (window.CAL && window.CAL.slot ? window.CAL.slot : "");
+    } catch (e) { return ""; }
+  }
+
+  function hasSlot() {
+    try { return !!(window.CAL && window.CAL.date && window.CAL.slot); }
+    catch (e) { return false; }
+  }
+
+  function mailtoFallback(d) {
+    var body = "Call request \u2014 BARAKA Invest\r\n\r\n" +
+      "Requested slot: " + d.slot + " (Gulf Standard Time, GMT+4)\r\n" +
+      "Duration: 30 minutes\r\n\r\n" +
+      "Name: " + d.name + "\r\nBusiness email: " + d.email +
+      "\r\nOrganization: " + (d.organization || "\u2014") +
+      "\r\nPhone: " + (d.phone || "\u2014") +
+      "\r\n\r\nTopic:\r\n" + (d.topic || "\u2014");
+    window.location.href = "mailto:" + FALLBACK +
+      "?subject=" + encodeURIComponent("Call request \u2014 " + d.slot + " \u2014 " + d.name) +
+      "&body=" + encodeURIComponent(body);
+  }
+
+  function submit(btn) {
+    if (busy) return;
+
+    if (!hasSlot()) { say("Please select a date and a time.", false); return; }
+
+    var d = {
+      name: val("cal_name"),
+      email: val("cal_email"),
+      organization: val("cal_org"),
+      phone: val("cal_phone"),
+      topic: val("cal_topic"),
+      slot: slotLabel()
+    };
+    if (!d.name || !d.email) {
+      say("Please add your name and business email.", false); return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) {
+      say("That email address doesn't look right \u2014 please check it.", false); return;
+    }
+
+    busy = true;
+    var original = btn.textContent;
+    btn.textContent = "Sending\u2026";
+    say("", true);
+
+    var body = new URLSearchParams();
+    body.append("form-name", FORM);
+    body.append("name", d.name);
+    body.append("email", d.email);
+    body.append("organization", d.organization);
+    body.append("phone", d.phone);
+    body.append("topic", d.topic);
+    body.append("requested_slot", d.slot);
+    body.append("submitted_at", new Date().toISOString());
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString()
+    }).then(function (r) {
+      if (!r.ok) throw new Error("bad status");
+      btn.textContent = "Request sent \u2713";
+      say("Thank you \u2014 we'll confirm " + d.slot + " by email within one business day.", true);
+    }).catch(function () {
+      // Never lose a booking: hand off to the visitor's mail client.
+      btn.textContent = original;
+      say("Opening your email app to send this request\u2026", true);
+      mailtoFallback(d);
+    }).finally(function () { busy = false; });
+  }
+
+  // Capture phase: runs before the button's inline mailto handler and stops
+  // the event reaching it, so we replace that behaviour cleanly.
+  document.addEventListener("click", function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest("#calBtn") : null;
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    submit(btn);
+  }, true);
+})();
+</script>
+
 <form name="orders" netlify netlify-honeypot="bot-field" hidden>
   <input type="text" name="name">
   <input type="email" name="email">
