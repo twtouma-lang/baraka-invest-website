@@ -22,10 +22,15 @@ const TIER_A = new Set([
   "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR",
   "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL",
   "PL", "PT", "RO", "SK", "SI", "ES", "SE", "IS", "LI", "NO",
+  // Asia-Pacific, Switzerland, Mexico and the remaining GCC
+  "HK", "CN", "TW", "KR", "CH", "MX", "QA", "KW",
 ]);
 
 // Sanctions — permanent. Do not edit when reopening a cleared market.
-const TIER_B = new Set(["IR", "SY", "KP", "CU", "RU", "SD"]);
+const TIER_B = new Set([
+  "IR", "SY", "KP", "CU", "RU", "SD",
+  "BY", "VE", "MM", "AF",
+]);
 
 const page = (reason: string) => `<!DOCTYPE html>
 <html lang="en"><head>
