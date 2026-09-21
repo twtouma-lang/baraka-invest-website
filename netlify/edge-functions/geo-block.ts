@@ -30,7 +30,30 @@ const TIER_A = new Set([
 const TIER_B = new Set([
   "IR", "SY", "KP", "CU", "RU", "SD",
   "BY", "VE", "MM", "AF",
+  "BI", "CF", "TD", "CG", "CD", "ER", "IQ", "LY", "SO", "SS", "YE",
 ]);
+
+// Sanctioned regions inside a country that is otherwise open. Ukraine itself
+// is not blocked -- only the covered territories. Netlify reports a
+// subdivision code and name, and the code's shape varies by country, so both
+// are matched.
+const TIER_B_REGIONS: Record<string, { codes: string[]; names: string[] }> = {
+  UA: {
+    codes: ["43", "UA-43", "40", "UA-40", "14", "UA-14", "09", "9", "UA-09"],
+    names: ["crimea", "krym", "sevastopol", "donetsk", "luhansk", "lugansk"],
+  },
+};
+
+function inSanctionedRegion(country: string, context: Context): boolean {
+  const rule = TIER_B_REGIONS[country];
+  if (!rule) return false;
+  const sub = context.geo?.subdivision;
+  if (!sub) return false;
+  const code = String(sub.code ?? "").toUpperCase();
+  const name = String(sub.name ?? "").toLowerCase();
+  if (code && rule.codes.some((c) => c.toUpperCase() === code)) return true;
+  return !!name && rule.names.some((n) => name.includes(n));
+}
 
 const page = (reason: string) => `<!DOCTYPE html>
 <html lang="en"><head>
@@ -84,7 +107,7 @@ export default async (_request: Request, context: Context) => {
   // geo lookup into a blocked customer.
   if (!country) return;
 
-  if (TIER_B.has(country)) {
+  if (TIER_B.has(country) || inSanctionedRegion(country, context)) {
     return new Response(page(SANCTIONS), {
       status: 451,
       headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" },
