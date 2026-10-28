@@ -1,0 +1,173 @@
+[
+ {
+  "id": "L1",
+  "text": "Every market tells a story,",
+  "src_in": 0.0,
+  "src_out": 2.18,
+  "dur": 2.18,
+  "speech_on": 0.06,
+  "speech_dur": 2.0
+ },
+ {
+  "id": "L2a",
+  "text": "40 plus markets,",
+  "src_in": 2.18,
+  "src_out": 3.88,
+  "dur": 1.7,
+  "speech_on": 0.06,
+  "speech_dur": 1.52
+ },
+ {
+  "id": "L2b",
+  "text": "11 sectors,",
+  "src_in": 4.05,
+  "src_out": 5.45,
+  "dur": 1.4,
+  "speech_on": 0.06,
+  "speech_dur": 1.22
+ },
+ {
+  "id": "L2c",
+  "text": "60 plus industries,",
+  "src_in": 5.57,
+  "src_out": 7.51,
+  "dur": 1.94,
+  "speech_on": 0.06,
+  "speech_dur": 1.76
+ },
+ {
+  "id": "L2d",
+  "text": "all moving at once.",
+  "src_in": 7.68,
+  "src_out": 9.24,
+  "dur": 1.56,
+  "speech_on": 0.06,
+  "speech_dur": 1.38
+ },
+ {
+  "id": "L3a",
+  "text": "Most investors hear the noise.",
+  "src_in": 9.3,
+  "src_out": 11.49,
+  "dur": 2.19,
+  "speech_on": 0.06,
+  "speech_dur": 2.01
+ },
+ {
+  "id": "L3b",
+  "text": "The few who lead see the signal.",
+  "src_in": 11.72,
+  "src_out": 14.43,
+  "dur": 2.71,
+  "speech_on": 0.06,
+  "speech_dur": 2.55
+ },
+ {
+  "id": "L4",
+  "text": "Baraka Invest turns complexity into clarity.",
+  "src_in": 14.43,
+  "src_out": 18.37,
+  "dur": 3.94,
+  "speech_on": 0.05,
+  "speech_dur": 3.77
+ },
+ {
+  "id": "L5",
+  "text": "Institutional -grade research on countries, sectors, and industries,",
+  "src_in": 18.42,
+  "src_out": 23.31,
+  "dur": 4.89,
+  "speech_on": 0.06,
+  "speech_dur": 4.71
+ },
+ {
+  "id": "L6",
+  "text": "with Sharia intelligence woven through every page.",
+  "src_in": 23.38,
+  "src_out": 26.78,
+  "dur": 3.4,
+  "speech_on": 0.05,
+  "speech_dur": 3.23
+ },
+ {
+  "id": "L7a",
+  "text": "Business activity screens,",
+  "src_in": 26.84,
+  "src_out": 28.8,
+  "dur": 1.96,
+  "speech_on": 0.06,
+  "speech_dur": 1.78
+ },
+ {
+  "id": "L7b",
+  "text": "financial ratios,",
+  "src_in": 29.01,
+  "src_out": 30.61,
+  "dur": 1.6,
+  "speech_on": 0.06,
+  "speech_dur": 1.42
+ },
+ {
+  "id": "L7c",
+  "text": "purification guidance,",
+  "src_in": 30.88,
+  "src_out": 32.62,
+  "dur": 1.74,
+  "speech_on": 0.06,
+  "speech_dur": 1.56
+ },
+ {
+  "id": "L8",
+  "text": "conviction and compliance in the same document.",
+  "src_in": 32.64,
+  "src_out": 36.31,
+  "dur": 3.67,
+  "speech_on": 0.05,
+  "speech_dur": 3.5
+ },
+ {
+  "id": "L9",
+  "text": "So, before you commit capital, you already know the forces shaping the next 24 months.",
+  "src_in": 36.35,
+  "src_out": 42.52,
+  "dur": 6.17,
+  "speech_on": 0.06,
+  "speech_dur": 5.99
+ },
+ {
+  "id": "L10a",
+  "text": "Knowledge amplified.",
+  "src_in": 42.55,
+  "src_out": 44.5,
+  "dur": 1.95,
+  "speech_on": 0.05,
+  "speech_dur": 1.78
+ },
+ {
+  "id": "L10b",
+  "text": "Decisions sharpened.",
+  "src_in": 44.77,
+  "src_out": 46.67,
+  "dur": 1.9,
+  "speech_on": 0.06,
+  "speech_dur": 1.72
+ },
+ {
+  "id": "L11a",
+  "text": "Baraka Invest,",
+  "src_in": 46.72,
+  "src_out": 48.29,
+  "dur": 1.57,
+  "speech_on": 0.06,
+  "speech_dur": 1.39
+ },
+ {
+  "id": "L11b",
+  "text": "intelligence before it's obvious.",
+  "src_in": 48.59,
+  "src_out": 51.331,
+  "dur": 2.741,
+  "speech_on": 0.04,
+  "speech_dur": 2.69
+ }
+]
